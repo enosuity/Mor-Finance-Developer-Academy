@@ -33,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'forum' as NavPage, label: 'Community Forum', icon: '💬', description: 'Connect & discuss' },
     { id: 'hackathons' as NavPage, label: 'Tech Sprints & Grants', icon: '⚔️', description: 'Build & innovate' },
     { id: 'careers' as NavPage, label: 'Tech Career Portal', icon: '💼', description: 'Roles, Sprints & Grants' },
+    { id: 'leaderboard' as NavPage, label: 'Leaderboard', icon: '🥇', description: 'Top verified contributors' },
     { id: 'certificates' as NavPage, label: 'System Credentials', icon: '🏆', description: 'Standard benchmarks' },
     { id: 'subscriptions' as NavPage, label: 'Subscription Plans', icon: '💎', description: 'Unlock premium features' },
   ];

@@ -64,7 +64,7 @@ export interface ChatMessage {
   isStreaming?: boolean;
 }
 
-export type NavPage = 'academy' | 'roadmap' | 'dashboard' | 'analytics' | 'sandbox' | 'mentor' | 'certificates' | 'forum' | 'hackathons' | 'careers' | 'about' | 'subscriptions';
+export type NavPage = 'academy' | 'roadmap' | 'dashboard' | 'analytics' | 'sandbox' | 'mentor' | 'certificates' | 'forum' | 'hackathons' | 'careers' | 'leaderboard' | 'about' | 'subscriptions';
 
 export interface CompilationResult {
   success: boolean;

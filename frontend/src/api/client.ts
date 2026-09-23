@@ -2,6 +2,12 @@ import type { UserProgress, ProgressUpdate, TemplateMetadata, CodeTemplate, Cour
 
 const BASE = (import.meta.env.VITE_API_BASE_URL as string) || '/api';
 
+// ─── Careers & Leaderboard — dedicated base URL (do NOT reuse BASE above) ─────────────────────
+// BASE points at the Academy's own backend (auth, progress, courses, forum, ...). The careers feed and the
+// leaderboard live on a separate service (the Web3 Careers & Leaderboard backend), so they get their own base
+// URL. This keeps changing one from ever accidentally breaking the other.
+const CAREERS_BASE = (import.meta.env.VITE_CAREERS_API_BASE_URL as string) || `${BASE}`;
+
 // ─── Progress ─────────────────────────────────────────────────────────────────
 export async function fetchProgress(userId = 'demo-user'): Promise<UserProgress> {
   const res = await fetch(`${BASE}/progress/${userId}`);
@@ -4686,10 +4692,27 @@ export async function fetchJobs(params?: {
   if (params?.limit) q.set('limit', String(params.limit));
   if (params?.type && params.type !== 'all') q.set('type', params.type);
 
-  const res = await fetch(`${BASE}/jobs?${q.toString()}`);
+  const res = await fetch(`${CAREERS_BASE}/jobs?${q.toString()}`);
   if (!res.ok) {
     const errData = await res.json().catch(() => ({}));
     throw new Error(errData.detail || `Failed to fetch live jobs from API: ${res.status}`);
+  }
+  return res.json();
+}
+
+// ─── Leaderboard API ──────────────────────────────────────────────────────────
+export interface LeaderboardRow {
+  rank: number;
+  telegram: string;
+  txCount: number;
+  chainCount: number;
+}
+
+export async function fetchLeaderboard(): Promise<LeaderboardRow[]> {
+  const res = await fetch(`${CAREERS_BASE}/leaderboard`);
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.detail || errData.error || `Failed to fetch leaderboard: ${res.status}`);
   }
   return res.json();
 }

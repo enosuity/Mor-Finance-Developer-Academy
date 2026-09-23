@@ -6,7 +6,7 @@ import { fetchProgress, fetchCourses, authGithub, authWallet, fetchAuthConfig, e
 import { Sidebar } from './components/Layout/Sidebar';
 import { Header }  from './components/Layout/Header';
 import { HeadLayoutMeta } from './components/Layout/HeadLayoutMeta';
-import { RoadmapPage, DashboardPage, MentorPage } from './pages';
+import { RoadmapPage, DashboardPage, MentorPage, LeaderboardPage } from './pages';
 import { LessonsList } from './components/Roadmap/LessonsList';
 import { LessonView } from './components/Roadmap/LessonView';
 import { CertificatesView } from './components/Certificates/CertificatesView';
@@ -33,6 +33,7 @@ export default function App() {
     if (path.startsWith('/forum')) return 'forum';
     if (path.startsWith('/hackathons')) return 'hackathons';
     if (path.startsWith('/careers')) return 'careers';
+    if (path.startsWith('/leaderboard')) return 'leaderboard';
     if (path.startsWith('/mentor')) return 'mentor';
     if (path.startsWith('/certificates')) return 'certificates';
     if (path.startsWith('/subscriptions')) return 'subscriptions';
@@ -682,6 +683,7 @@ export default function App() {
           } />
           <Route path="/careers" element={<CareerDashboard isLoggedIn={isLoggedIn} />} />
           <Route path="/career" element={<CareerDashboard isLoggedIn={isLoggedIn} />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/mentor" element={
             isLoggedIn ? (
               <MentorPage currentLevel={progress?.current_level ?? 1} userId={userId} />

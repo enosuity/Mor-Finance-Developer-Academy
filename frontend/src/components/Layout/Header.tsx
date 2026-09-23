@@ -30,6 +30,7 @@ const PAGE_META: Record<NavPage, { title: string; subtitle: string }> = {
   forum:        { title: 'Community Forum',    subtitle: 'Ask questions, share knowledge, and help others' },
   hackathons:   { title: 'Technical Sprints',  subtitle: 'Build, innovate, and solve real-world challenges' },
   careers:      { title: 'Career Dashboard',   subtitle: 'Software engineering roles, internships & research grants' },
+  leaderboard:  { title: 'Leaderboard',        subtitle: 'Top verified on-chain contributors, ranked by testnet activity' },
   mentor:       { title: 'AI Mentor Workspace',subtitle: 'Get real-time code reviews and support' },
   certificates: { title: 'System Credentials', subtitle: 'View and export your verified achievements' },
   subscriptions: { title: 'Subscription Plans', subtitle: 'Choose a subscription plan to unlock premium mentorship and credentials' },

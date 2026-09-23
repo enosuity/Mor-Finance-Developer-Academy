@@ -3,7 +3,11 @@ import React from 'react';
 import { RoadmapView } from '../components/Roadmap/RoadmapView';
 import { Dashboard }   from '../components/Dashboard/Dashboard';
 import { ChatInterface } from '../components/AIMentor/ChatInterface';
+import { LeaderboardView } from '../components/Leaderboard/LeaderboardView';
 import type { UserProgress } from '../types';
+
+// ── Leaderboard Page ──────────────────────────────────────────────────────────
+export const LeaderboardPage: React.FC = () => <LeaderboardView />;
 
 // ── Roadmap Page ──────────────────────────────────────────────────────────────
 interface RoadmapPageProps {
