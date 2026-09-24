@@ -42,7 +42,7 @@ export const SubscriptionPlans: React.FC<{ isLoggedIn?: boolean }> = ({ isLogged
       name: 'Career Boost',
       tagline: 'Unlock Opportunities',
       icon: '🚀',
-      price: 29,
+      price: 19,
       description: 'Unlock career, freelance & startup opportunities with in-demand enterprise programming architecture.',
       isCareer: true,
       subgrid: [
