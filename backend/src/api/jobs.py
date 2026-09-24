@@ -246,12 +246,10 @@ async def get_jobs(
     # 1. Filter by internships / entry-level if requested
     if type_val == "internships":
         filtered = [
-            j for j in live_jobs 
-            if j.get("is_internship") or j.get("is_junior") or 
+            j for j in live_jobs
+            if j.get("is_internship") or j.get("is_junior") or
             any(kw in j["title"].lower() for kw in ["intern", "junior", "graduate", "apprentice", "entry", "fellowship"])
         ]
-        if not filtered and live_jobs:
-            filtered = live_jobs
     else:
         filtered = list(live_jobs)
 

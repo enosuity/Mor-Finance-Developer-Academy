@@ -24,5 +24,17 @@ class Settings(BaseSettings):
     web3_career_api_key: str = "X9q3WrJhceDrdb3oYt2xXeF8Aukh1YsZ"
     web3_career_token: str = "X9q3WrJhceDrdb3oYt2xXeF8Aukh1YsZ"
 
+    # ─── Leaderboard (testnet activity submissions) ───────────────────────────
+    chains: List[str] = ["sepolia", "base-sepolia", "arbitrum-sepolia", "optimism-sepolia"]
+    verify_onchain: bool = False
+    rpc_url_sepolia: str = ""
+    rpc_url_base_sepolia: str = ""
+    rpc_url_arbitrum_sepolia: str = ""
+    rpc_url_optimism_sepolia: str = ""
+
+    # ─── Payment callback (sandbox/test-mode only) ────────────────────────────
+    payment_countries: List[str] = ["NG", "KE", "TZ", "BW", "ZA", "GH", "RW"]
+    allow_mock_payment_callback: bool = False
+
 
 settings = Settings()

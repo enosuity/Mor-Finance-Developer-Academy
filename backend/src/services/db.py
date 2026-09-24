@@ -85,6 +85,8 @@ async def connect_to_mongo():
             db_name = path
     db_instance.db = db_instance.client[db_name]
     print(f"✅ Connected to MongoDB. Database: '{db_name}'")
+    # A given testnet transaction hash should only ever count once, no matter who submits it.
+    await db_instance.db["developer_academy_leaderboard"].create_index("txHash", unique=True)
     # await seed_forum_threads()
     # await seed_hackathons()
 
@@ -96,6 +98,11 @@ async def close_mongo_connection():
         db_instance.client = None
         db_instance.db = None
         print("🛑 Closed MongoDB connection.")
+
+def get_leaderboard_collection():
+    """Retrieve the leaderboard submissions collection."""
+    _ensure_connected()
+    return db_instance.db["developer_academy_leaderboard"]
 
 def build_user_levels(active_track: str, completed_ids: List[str]):
     t_id = (active_track or "fundamentals").lower().strip()
