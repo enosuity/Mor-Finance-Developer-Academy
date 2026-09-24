@@ -1,0 +1,33 @@
+# Backup trigger for the job aggregator, in case the host sleeps and the in-process
+# scheduler (job_scheduler.py) misses a tick: pings POST /api/cron/aggregate every 30
+# minutes. CRON_SECRET is a GitHub Actions repo secret (Settings > Secrets and variables
+# > Actions), matching CRON_SECRET set on the backend host - never put it in this file.
+#
+# Note: GitHub Actions scheduled runs on personal/private repos can be delayed by hours
+# under load - this is a backup, not the primary mechanism. The in-process scheduler
+# (started in main.py's lifespan) is what actually keeps the feed fresh while the
+# backend process is alive.
+name: Aggregate job feed (backup trigger)
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/cron/aggregate
+        run: |
+          set -euo pipefail
+          status=$(curl -sS -o /tmp/body.json -w '%{http_code}' \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 60 \
+            "https://mor-finance-developer-academy-backend.onrender.com/api/cron/aggregate")
+          echo "HTTP $status"
+          cat /tmp/body.json
+          if [ "$status" -ge 300 ]; then
+            echo "::error::aggregate endpoint returned $status"
+            exit 1
+          fi

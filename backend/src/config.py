@@ -36,5 +36,14 @@ class Settings(BaseSettings):
     payment_countries: List[str] = ["NG", "KE", "TZ", "BW", "ZA", "GH", "RW"]
     allow_mock_payment_callback: bool = False
 
+    # ─── Job aggregator (alternate to the live-fetch /api/jobs; see /api/jobs-aggregated) ────
+    user_agent: str = "mor-finance-academy/1.0"
+    cryptojobslist_rss_url: str = "https://api.cryptojobslist.com/jobs.rss"
+    web3_career_url: str = "https://web3.career/api/v1"
+    web3_career_tags: List[str] = ["intern", "entry-level"]
+    job_ttl_days: int = 30
+    aggregate_every_minutes: int = 30
+    cron_secret: str = ""
+
 
 settings = Settings()

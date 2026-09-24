@@ -7,9 +7,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.config import settings
-from src.api import progress, templates, auth, courses, quiz, exercise, dashboard, certificates, github, forum, hackathons, jobs, arbitrum, leaderboard, payment
+from src.api import progress, templates, auth, courses, quiz, exercise, dashboard, certificates, github, forum, hackathons, jobs, arbitrum, leaderboard, payment, jobs_aggregated, cron
 from src.services.ai_mentor import router as mentor_router
 from src.services.db import connect_to_mongo, close_mongo_connection
+from src.services.job_scheduler import start_scheduler, stop_scheduler
 
 
 @asynccontextmanager
@@ -17,7 +18,9 @@ async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle."""
     print(f"🚀  Developer Academy API starting — env={settings.app_env}")
     await connect_to_mongo()
+    start_scheduler()
     yield
+    stop_scheduler()
     await close_mongo_connection()
     print("🛑  Developer Academy API shutting down")
 
@@ -55,6 +58,8 @@ app.include_router(mentor_router, prefix="/api/mentor", tags=["AI Mentor"])
 app.include_router(forum.router, prefix="/api/forum", tags=["Forum"])
 app.include_router(hackathons.router, prefix="/api/hackathons", tags=["Hackathons"])
 app.include_router(jobs.router, prefix="/api/jobs", tags=["Jobs & Careers"])
+app.include_router(jobs_aggregated.router, prefix="/api/jobs-aggregated", tags=["Jobs & Careers (aggregated, alternate)"])
+app.include_router(cron.router, prefix="/api/cron/aggregate", tags=["Jobs & Careers (aggregated, alternate)"])
 app.include_router(leaderboard.router, prefix="/api/leaderboard", tags=["Leaderboard"])
 app.include_router(payment.router, prefix="/api/payment-callback", tags=["Payment Callback (sandbox)"])
 app.include_router(arbitrum.router, prefix="/api", tags=["Arbitrum Analytics & Cohorts"])

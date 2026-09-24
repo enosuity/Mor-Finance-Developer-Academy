@@ -87,6 +87,9 @@ async def connect_to_mongo():
     print(f"✅ Connected to MongoDB. Database: '{db_name}'")
     # A given testnet transaction hash should only ever count once, no matter who submits it.
     await db_instance.db["developer_academy_leaderboard"].create_index("txHash", unique=True)
+    # Aggregated job postings are de-duplicated by canonical URL / title+company key.
+    await db_instance.db["developer_academy_jobs"].create_index("urlKey", unique=True, sparse=True)
+    await db_instance.db["developer_academy_jobs"].create_index("keys")
     # await seed_forum_threads()
     # await seed_hackathons()
 
@@ -103,6 +106,16 @@ def get_leaderboard_collection():
     """Retrieve the leaderboard submissions collection."""
     _ensure_connected()
     return db_instance.db["developer_academy_leaderboard"]
+
+def get_jobs_collection():
+    """Retrieve the aggregated job postings collection."""
+    _ensure_connected()
+    return db_instance.db["developer_academy_jobs"]
+
+def get_aggregator_state_collection():
+    """Retrieve the aggregator run-lock / last-result state collection."""
+    _ensure_connected()
+    return db_instance.db["developer_academy_aggregator_state"]
 
 def build_user_levels(active_track: str, completed_ids: List[str]):
     t_id = (active_track or "fundamentals").lower().strip()
